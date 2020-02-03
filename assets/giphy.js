@@ -1,4 +1,4 @@
-jQuery(function ($) {
+$(document).ready(function(){
 
     // Topics array
     var topics = [
@@ -15,41 +15,32 @@ jQuery(function ($) {
         for (var i = 0; i < topics.length; i++) {
             // Then dynamicaly generating buttons for each movie in the array.
             // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
-            var a = $("<button>");
-            // Adding a class
-            a.addClass("weatherButtons");
-            // Adding a data-attribute with a value of the movie at index i
-            a.attr("data-name", topics[i]);
-            // Providing the button's text with a value of the movie at index i
-            a.text(topics[i]);
-            // Adding the button to the HTML
-            $(".buttons").append(a);
+            var button = $('<button type="button" class="btn btn-secondary mr-2">');
+            button.val(topics[i]);
+            button.text(topics[i]);
+            $('.buttons').append(button);
         }
     }
 
+    renderButtons();
+
     // This function handles events where one button is clicked
-    $("#submit").on("click", function (event) {
-        // event.preventDefault() prevents the form from trying to submit itself.
-        // We're using a form so that the user can hit enter instead of clicking the button if they want
+    $("form#add").on("submit", function (event) {
         event.preventDefault();
-        // This line will grab the text from the input box
-        var weatherButton = $("#userInput").val().trim();
-        // The movie from the textbox is then added to our array
-        topics.push(weatherButton);
-        // calling renderButtons which handles the processing of our movie array
+
+        var userInput = $("input[name='userInput']").val().trim();
+        
+        topics.push(userInput);
+
+        // clear the input box after submit is clicked
+        $(".form-control").val("");
+
+        // calling renderButtons which handles the processing of our topics array
         renderButtons();
     });
 
-    // clear the input box after submit is clicked
-    $(".form-control").val("");
-
-    // append topics to buttons
-    $.each(topics, function (i, value) {
-        $('.buttons').append('<button type="button" value="' + value + '">' + value + '</button>');
-    });
-
     //When buttons are clicked
-    $('.buttons button').click(function () {
+    $(document).on('click', '.buttons button', function () {
         var value = $(this).val();
         $('.gifs').html('');
 
@@ -63,13 +54,34 @@ jQuery(function ($) {
                 $.each(gifs, function (i, gif) {
                     console.log(gif);
                     //building still gif with rating and appending to html
-                    var build = '<div class="gif">' +
-                        gif['rating'] +
-                        '<img src="' + gif['images']['480w_still']['url'] + '" alt="' + gif['title'] + '">' +
+                    var build = '<div class="col-12 col-sm-6 gif">' + 
+                        '<div class="card mb-4" id="' + gif['id'] + '">' +
+                        '<img '+
+                        'src="' + gif['images']['480w_still']['url'] + '" class="card-img-top" alt="' + gif['title'] + '" ' +
+                        'data-state="still" ' +
+                        'data-animate="' + gif['images']['original']['url'] + '" ' +
+                        'data-still="' + gif['images']['480w_still']['url'] + '"' +
+                        '>' +
+                        '<div class="card-body">' + 
+                        '<h5 class="card-title">' + gif['title'] + '</h5>' +
+                        '<p class="card-text"><strong>Rating:</strong> ' + gif['rating'] + '</p>' +
+                        '</div>' +
+                        '</div>' +
                         '</div>';
                     $('.gifs').append(build);
                 });
             }
         });
+    });
+
+    $(document).on('click', '.gif img', function () {
+        var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
     });
 });

@@ -1,37 +1,15 @@
 body{
     background-image: url(../images/bg6.jpg);
     background-size: 2000px;
+    padding: 5%
 }
 
 
 .container{
-    margin: 5%;
     border: solid black 2px;
-    padding: 40px;
     background-color: rgba(255, 255, 255, 0.8);
-
 }
 
-.title {
-   padding-bottom: 20px;
-}
-
-
-.gifs {
-    display: grid;
-    grid-template-columns: 400px 400px;
-    grid-gap: 90px;
-    margin: auto;
-}
-
-.buttons {
-    margin: auto;
-    display: grid;
-    grid-template-columns: 150px 150px 150px;
-    grid-gap: 15px;
-    padding-bottom: 10px;
-}
-
-#userInput {
-    width: 50%;
+.container .form {
+    max-width: 500px;
 }
