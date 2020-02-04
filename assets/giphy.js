@@ -46,7 +46,7 @@ $(document).ready(function(){
 
         //Ajax call
         $.ajax({
-            url: 'http://api.giphy.com/v1/gifs/search',
+            url: 'https://api.giphy.com/v1/gifs/search',
             method: 'GET',
             data: { q: value, limit: '10', key: 'QgIqBovnd09l5Osxax5T3msINA48WXgg' },
             success: function (data) {
