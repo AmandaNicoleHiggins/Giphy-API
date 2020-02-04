@@ -53,7 +53,7 @@ $(document).ready(function(){
                 var gifs = data.data;
                 $.each(gifs, function (i, gif) {
                     console.log(gif);
-                    //building still gif with rating and appending to html
+                    //building gif with rating, title, and styling - appending to html
                     var build = '<div class="col-12 col-sm-6 gif">' + 
                         '<div class="card mb-4" id="' + gif['id'] + '">' +
                         '<img '+
